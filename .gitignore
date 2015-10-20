@@ -1,0 +1,4 @@
+public/
+node_modules/*
+!node_modules/app
+app/templates/compiledTemplates.js

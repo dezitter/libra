@@ -1,0 +1,60 @@
+{
+  "name": "libra",
+  "version": "1.0.0",
+  "description": "A markdown file viewer.",
+  "main": "index.js",
+  "scripts": {
+    "start": "gulp build && node index.js",
+    "dev": "gulp watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dezitter/libra.git"
+  },
+  "keywords": [
+    "markdown", "backbone", "rendr", "dropbox"
+  ],
+  "author": "Laurent Dezitter <laurent.dezitter@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dezitter/libra/issues"
+  },
+  "homepage": "https://github.com/dezitter/libra#readme",
+  "dependencies": {
+    "babel": "^5.8.23",
+    "body-parser": "^1.14.1",
+    "debug": "^2.2.0",
+    "express": "^4.13.3",
+    "handlebars": "^3.0.0",
+    "jquery": "^2.1.4",
+    "nconf": "^0.8.2",
+    "rendr": "^1.1.1",
+    "rendr-handlebars": "^2.0.1",
+    "serve-static": "^1.10.0"
+  },
+  "devDependencies": {
+    "babelify": "^6.3.0",
+    "browserify": "^11.2.0",
+    "del": "^2.0.2",
+    "glob": "^5.0.15",
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-debug": "^2.1.2",
+    "gulp-declare": "^0.3.0",
+    "gulp-handlebars": "^4.0.0",
+    "gulp-nodemon": "^2.0.4",
+    "gulp-sass": "^2.0.4",
+    "gulp-util": "^3.0.6",
+    "gulp-wrap": "^0.11.0",
+    "map-stream": "0.0.6",
+    "run-sequence": "^1.1.4",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.4.0"
+  },
+  "browserify": {
+    "transform": [
+      "babelify"
+    ]
+  }
+}

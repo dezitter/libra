@@ -1,0 +1,16 @@
+{
+    "verbose": true,
+    "env": {
+        "DEBUG": "libra",
+        "NODE_ENV": "development"
+    },
+    "ext": "js json hbs",
+    "ignore": [
+        "app/templates/compiledTemplates.js"
+    ],
+    "watch": [
+        "./index.js",
+        "./server.js",
+        "app"
+    ]
+}
