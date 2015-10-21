@@ -1,6 +1,8 @@
 import App from 'app/app';
 
-const app = new App();
+const appData = global.data.app;
+const bootstrapData = global.data.bootstrapData;
+const app = new App(appData);
 
-app.bootstrapData();
+app.bootstrapData(bootstrapData);
 app.start();

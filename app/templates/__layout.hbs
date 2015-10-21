@@ -10,10 +10,26 @@
   </head>
 
   <body>
+    <header>
+      <div>
+        <span>Libra</span>
+        <nav>
+          <a href="/">Home</a>
+          <a href="/files">List</a>
+        </nav>
+      </div>
+    </header>
+
     <div id="content" class="page-content">
       {{{body}}}
     </div>
 
+    <script>
+      window.data = {
+        app: {{json appDate}},
+        bootstrapData: {{json bootstrappedData}}
+      };
+    </script>
     <script src="/js/bundle.js"></script>
   </body>
 </html>
