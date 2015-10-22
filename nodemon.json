@@ -12,6 +12,6 @@
         "./index.js",
         "./server.js",
         "app",
-        "lib"
+        "api"
     ]
 }

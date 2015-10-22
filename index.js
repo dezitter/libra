@@ -1,4 +1,4 @@
 require('babel/register');
 
-require('app/config');
+require('./config');
 require('./server');

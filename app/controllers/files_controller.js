@@ -6,7 +6,15 @@ export default {
     },
 
     show: function(params, cb) {
-        const spec = { model: { params, model: 'File' } };
+        const path = params[0];
+
+        const spec = {
+            model: {
+                model: 'File',
+                needsFetch: true,
+                params: { path }
+            }
+        };
         this.app.fetch(spec, cb);
     }
 };

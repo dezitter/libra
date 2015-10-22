@@ -1,19 +1,33 @@
-/* TODO fetch from dropbox */
-const files = [
-    { name: 'foo', content: 'Lorem ipsum' },
-    { name: 'bar', content: 'Lorem ipsum' },
-    { name: 'quz', content: 'Lorem ipsum' }
-];
+function router(app) {
+    const fetcher = app.get('fetcher');
+    const converter = app.get('converter');
 
-export default function(app) {
+    function parseMarkdown(file) {
+        const content = converter.makeHtml(file.content);
+        file.content = content;
+        return file;
+    }
 
-    app.get('/files', function(req, res) {
-        res.send(files);
+    function respond(promise, req, res, next) {
+        return promise
+            .then(result => res.send(result))
+            .catch(next);
+    }
+
+    app.get('/files', function(req, res, next) {
+        const promise = fetcher.fetch();
+
+        respond(promise, req, res, next);
     });
 
-    app.get('/files/:name', function(req, res) {
-        const file = files.find(f => f.name === req.params.name);
-        res.send(file);
+    app.get(/\/files(\/.+)/, function(req, res, next) {
+        const filepath = req.params[0];
+        const promise = fetcher.find(filepath)
+                               .then(parseMarkdown);
+
+        respond(promise, req, res, next);
     });
 
 }
+
+export default router;
