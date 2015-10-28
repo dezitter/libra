@@ -6,4 +6,4 @@ node_modules/*
 
 app/templates/compiledTemplates.js
 
-dropbox.json
+config/dropbox.json

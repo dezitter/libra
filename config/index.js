@@ -3,7 +3,7 @@ import nconf from 'nconf';
 nconf
     .argv()
     .env()
-    .file({ file: 'dropbox.json' })
+    .file({ file: 'config/dropbox.json' })
     .defaults({
         PORT: 3000,
         API_PORT: 3001,
