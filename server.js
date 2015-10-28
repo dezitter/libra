@@ -17,7 +17,7 @@ const server = rendr.createServer({ dataAdapterConfig });
 
 // app configuration
 server.configure(function(expressApp) {
-    expressApp.use(serverStatic(`${__dirname}/public`));
+    expressApp.use(serverStatic(`${__dirname}/dist`));
     expressApp.use(bodyParser.json());
 });
 

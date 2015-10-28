@@ -5,8 +5,8 @@ export default {
     templates_dest: 'app/templates/compiledTemplates.js',
 
     css_src: 'assets/scss/**/*.scss',
-    css_dest: 'public/css',
+    css_dest: 'dist/css',
 
     js_src: 'app/client.js',
-    js_dest: 'public/js/bundle.js'
+    js_dest: 'dist/js/bundle.js'
 };
