@@ -1,7 +1,8 @@
+import bodyParser from 'body-parser';
 import debug from 'debug';
 import express from 'express';
+import logger from 'morgan';
 import rendr from 'rendr';
-import bodyParser from 'body-parser';
 import serverStatic from 'serve-static';
 
 import api from 'api';
@@ -17,6 +18,7 @@ const server = rendr.createServer({ dataAdapterConfig });
 
 // app configuration
 server.configure(function(expressApp) {
+    expressApp.use(logger('dev'));
     expressApp.use(serverStatic(`${__dirname}/dist`));
     expressApp.use(bodyParser.json());
 });
