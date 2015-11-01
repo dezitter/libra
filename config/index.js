@@ -13,7 +13,9 @@ nconf
 
         API_PORT: 3001,
         API_HOSTNAME: 'localhost',
-        API_PROTOCOL: 'http'
+        API_PROTOCOL: 'http',
+
+        MONGO_DB_URI: 'mongodb://localhost/libra'
     });
 
 export default nconf;

@@ -1,10 +1,11 @@
 import bodyParser from 'body-parser';
+import connectMongo from 'connect-mongo';
 import debug from 'debug';
 import express from 'express';
 import logger from 'morgan';
 import rendr from 'rendr';
 import serverStatic from 'serve-static';
-import session from './session';
+import session from 'express-session';
 
 import ApiAdapter from 'app/server/adapter/api';
 import api from 'api';
@@ -13,6 +14,7 @@ import dropboxCfg from './config/dropbox';
 import dataAdapterConfig from './config/dataAdapter';
 import dropboxMiddleware from 'app/server/middlewares/dropbox';
 
+const MongoStore = connectMongo(session);
 const app = express();
 const dbg = debug('libra');
 const env = config.get('NODE_ENV');
@@ -23,7 +25,12 @@ const server = rendr.createServer({ dataAdapter });
 
 app.use(logger('dev'));
 app.use(serverStatic(`${__dirname}/dist`));
-app.use(session());
+app.use(session({
+    resave: false,
+    saveUninitialized: false,
+    secret: config.get('SESSION_SECRET'),
+    store: new MongoStore({ url: config.get('MONGO_DB_URI') })
+}));
 app.use(bodyParser.json());
 
 // app configuration
