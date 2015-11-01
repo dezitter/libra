@@ -3,7 +3,7 @@ import nconf from 'nconf';
 nconf
     .argv()
     .env()
-    .file({ file: 'config/dropbox.json' })
+    .file({ file: 'config/secret.json' })
     .defaults({
         SERVER_PORT: 3000,
         SERVER_HOSTNAME: 'localhost',
