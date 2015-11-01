@@ -15,15 +15,20 @@ function router(app) {
     }
 
     app.get('/files', function(req, res, next) {
-        const promise = fetcher.fetch();
+        const promise = fetcher.fetch({
+            token: req.session.token,
+            args: { root: '/', pattern: '.md' }
+        });
 
         respond(promise, req, res, next);
     });
 
     app.get(/\/files(\/.+)/, function(req, res, next) {
-        const filepath = req.params[0];
-        const promise = fetcher.find(filepath)
-                               .then(parseMarkdown);
+        const promise = fetcher.find({
+            token: req.session.token,
+            args: { filepath: req.params[0] }
+        })
+        .then(parseMarkdown);
 
         respond(promise, req, res, next);
     });

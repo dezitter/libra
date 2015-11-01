@@ -4,23 +4,39 @@ import express from 'express';
 import logger from 'morgan';
 import rendr from 'rendr';
 import serverStatic from 'serve-static';
+import session from './session';
 
+import ApiAdapter from 'app/server/adapter/api';
 import api from 'api';
 import config from './config';
+import dropboxCfg from './config/dropbox';
 import dataAdapterConfig from './config/dataAdapter';
+import dropboxMiddleware from 'app/server/middlewares/dropbox';
 
 const app = express();
 const dbg = debug('libra');
 const env = config.get('NODE_ENV');
-const port = config.get('PORT');
+const port = config.get('SERVER_PORT');
 const api_port = config.get('API_PORT');
-const server = rendr.createServer({ dataAdapterConfig });
+const dataAdapter = new ApiAdapter(dataAdapterConfig);
+const server = rendr.createServer({ dataAdapter });
+
+app.use(logger('dev'));
+app.use(serverStatic(`${__dirname}/dist`));
+app.use(session());
+app.use(bodyParser.json());
 
 // app configuration
 server.configure(function(expressApp) {
-    expressApp.use(logger('dev'));
-    expressApp.use(serverStatic(`${__dirname}/dist`));
-    expressApp.use(bodyParser.json());
+    expressApp.use(dropboxMiddleware(expressApp, {
+        dropboxCfg,
+        redirectPath: config.get('AUTH_REDIRECT_PATH'),
+        serverCfg: {
+            protocol: config.get('SERVER_PROTOCOL'),
+            hostname: config.get('SERVER_HOSTNAME'),
+            port: config.get('SERVER_PORT')
+        }
+    }));
 });
 
 app.use('/', server.expressApp);

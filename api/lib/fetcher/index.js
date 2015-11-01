@@ -4,8 +4,8 @@ class Fetcher {
         this.dropbox = options.dropbox;
     }
 
-    fetch() {
-        return this.dropbox.search('/', '.md');
+    fetch(options) {
+        return this.dropbox.search(options);
     }
 
     find(path) {

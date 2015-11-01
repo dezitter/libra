@@ -1,5 +1,6 @@
 import Dropbox from 'dropbox';
 
+import { getSpecs } from 'api/lib/dropbox/specs';
 import { getResponse, parseStat, parseFile } from 'api/lib/dropbox/util';
 
 // Promise wrapper for the Dropbox client API
@@ -10,27 +11,35 @@ class Client {
     }
 
     // call the given dropbox method and wrap it in a promise
-    _request(method, params, ...rest) {
+    _request(options) {
+        const { token, method, args, responseParams} = options;
+
+        this.client.setCredentials({ token });
+
         return new Promise((resolve, reject) => {
-            this.client[method](...rest, (error, ...results) => {
+            this.client[method](...args, (error, ...results) => {
                 if (error) return reject(error);
 
-                resolve( getResponse(params, ...results) );
+                resolve( getResponse(responseParams, ...results) );
             });
         });
     }
 
-    authenticate() {
-        return this._request('authenticate', ['client']);
-    }
+    search(options) {
+        Object.assign(options, getSpecs('search'), {
+            args: [options.args.root, options.args.pattern]
+        });
 
-    search(root, pattern) {
-        return this._request('search', ['stats'], root, pattern)
+        return this._request(options)
             .then(result => result.stats.map(parseStat));
     }
 
-    readFile(path) {
-        return this._request('readFile', ['content', 'stat', 'info'], path)
+    readFile(options) {
+        Object.assign(options, getSpecs('readFile'), {
+            args: [options.args.filepath]
+        });
+
+        return this._request(options)
             .then(result => parseFile(result));
     }
 }
