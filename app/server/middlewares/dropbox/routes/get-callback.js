@@ -2,7 +2,6 @@ import request from 'superagent';
 import { buildRedirectURI, getTokenURL, getTokenPayload } from '../utils';
 
 export function getCallback(options) {
-
     const { key, secret } = options.dropboxCfg;
     const redirect_uri = buildRedirectURI(options);
 

@@ -7,11 +7,13 @@ import rendr from 'rendr';
 import serverStatic from 'serve-static';
 import session from 'express-session';
 
+import config from './config';
+import dataAdapterConfig from './config/dataAdapter';
+import dropboxCfg from './config/dropbox';
+import serverCfg from './config/server';
+
 import ApiAdapter from 'app/server/adapter/api';
 import api from 'api';
-import config from './config';
-import dropboxCfg from './config/dropbox';
-import dataAdapterConfig from './config/dataAdapter';
 import dropboxMiddleware from 'app/server/middlewares/dropbox';
 
 const MongoStore = connectMongo(session);
@@ -37,12 +39,8 @@ app.use(bodyParser.json());
 server.configure(function(expressApp) {
     expressApp.use(dropboxMiddleware(expressApp, {
         dropboxCfg,
-        redirectPath: config.get('AUTH_REDIRECT_PATH'),
-        serverCfg: {
-            protocol: config.get('SERVER_PROTOCOL'),
-            hostname: config.get('SERVER_HOSTNAME'),
-            port: config.get('SERVER_PORT')
-        }
+        serverCfg,
+        redirectPath: config.get('AUTH_REDIRECT_PATH')
     }));
 });
 
