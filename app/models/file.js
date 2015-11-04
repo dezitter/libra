@@ -1,7 +1,7 @@
 import BaseModel from 'app/models/base';
 
 const FileModel = BaseModel.extend({
-    url: '/files/:path',
+    url: '/files:path',
     idAttribute: 'path'
 });
 FileModel.id = 'File';

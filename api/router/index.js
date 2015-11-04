@@ -14,7 +14,7 @@ function router(app) {
             .catch(next);
     }
 
-    app.get('/files', function(req, res, next) {
+   app.get('/files', function(req, res, next) {
         const promise = fetcher.fetch({
             token: req.session.token,
             args: { root: '/', pattern: '.md' }
