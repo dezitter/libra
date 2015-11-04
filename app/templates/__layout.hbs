@@ -6,22 +6,38 @@
     <title>Libra</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <link href="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.indigo-pink.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link href="/css/main.css" media="screen" rel="stylesheet" type="text/css" />
   </head>
 
   <body>
-    <header>
-      <div>
-        <span>Libra</span>
-        <nav>
-          <a href="/">Home</a>
-          <a href="/files">List</a>
-        </nav>
-      </div>
-    </header>
+      <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
 
-    <div id="content" class="page-content">
-      {{{body}}}
+        <header class="mdl-layout__header">
+          <div class="mdl-layout__header-row">
+
+            <span class="mdl-layout-title">Libra</span>
+            <div class="mdl-layout-spacer"> </div>
+            <nav class="mdl-navigation mdl-layout--large-screen-only">
+              <a class="mdl-navigation__link" href="/">Home</a>
+              <a class="mdl-navigation__link" href="/files">Files</a>
+            </nav>
+
+          </div>
+        </header>
+
+        <div class="mdl-layout__drawer">
+          <span class="mdl-layout-title">Libra</span>
+          <nav class="mdl-navigation">
+            <a class="mdl-navigation__link" href="/">Home</a>
+            <a class="mdl-navigation__link" href="/files">Files</a>
+          </nav>
+        </div>
+
+        <main class="mdl-layout__content">
+          <div id="content" class="page-content"> {{{body}}} </div>
+        </main>
     </div>
 
     <script>
@@ -30,6 +46,7 @@
         bootstrapData: {{json bootstrappedData}}
       };
     </script>
+    <script src="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js"></script>
     <script src="/js/bundle.js"></script>
   </body>
 </html>

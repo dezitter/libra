@@ -1,3 +1,20 @@
 html {
     color: #222;
 }
+
+#content {
+    padding: 48px 8px 8px;
+}
+
+.libra-file-list {
+    .mdl-cell {
+        .libra-file-list-item.mdl-card {
+            min-height: 100px;
+            width: 100%;
+        }
+    }
+}
+
+.libra-file-show {
+    padding: 48px;
+}
