@@ -1,3 +1,5 @@
+import xss from 'xss';
+
 function router(app) {
     const fetcher = app.get('fetcher');
     const converter = app.get('converter');
@@ -8,17 +10,23 @@ function router(app) {
         return file;
     }
 
-    function respond(promise, req, res, next) {
-        return promise
-            .then(result => res.send(result))
-            .catch(next);
+    function sanitize(file) {
+        file.content = xss(file.content);
+        return file;
     }
 
-   app.get('/files', function(req, res, next) {
+    function respond(promise, req, res, next) {
+        return promise
+        .then(result => res.send(result))
+        .catch(next);
+    }
+
+    app.get('/files', function(req, res, next) {
         const promise = fetcher.fetch({
             token: req.session.token,
             args: { root: '/', pattern: '.md' }
-        });
+        })
+        .then(files => files.map(sanitize));
 
         respond(promise, req, res, next);
     });
@@ -28,11 +36,11 @@ function router(app) {
             token: req.session.token,
             args: { filepath: req.params[0] }
         })
-        .then(parseMarkdown);
+        .then(parseMarkdown)
+        .then(sanitize);
 
         respond(promise, req, res, next);
     });
-
 }
 
 export default router;
