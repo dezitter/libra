@@ -2,6 +2,8 @@ import bodyParser from 'body-parser';
 import connectMongo from 'connect-mongo';
 import debug from 'debug';
 import express from 'express';
+import fs from 'fs';
+import https from 'https';
 import logger from 'morgan';
 import rendr from 'rendr';
 import serverStatic from 'serve-static';
@@ -24,6 +26,10 @@ const port = config.get('SERVER_PORT');
 const api_port = config.get('API_PORT');
 const dataAdapter = new ApiAdapter(dataAdapterConfig);
 const server = rendr.createServer({ dataAdapter });
+const httpsOptions = {
+    key: fs.readFileSync('keys/key.pem'),
+    cert: fs.readFileSync('keys/cert.pem')
+};
 
 app.use(logger('dev'));
 app.use(serverStatic(`${__dirname}/dist`));
@@ -46,5 +52,8 @@ server.configure(function(expressApp) {
 
 app.use('/', server.expressApp);
 
-api.listen(api_port, () => { dbg(`Api listening on port ${api_port} in ${env} mode`); });
-app.listen(port,     () => { dbg(`Server listening on port ${port} in ${env} mode`); });
+https.createServer(httpsOptions, api)
+     .listen(api_port, () => { dbg(`Api listening on port ${api_port} in ${env} mode`); });
+
+https.createServer(httpsOptions, app)
+     .listen(port, () => { dbg(`Server listening on port ${port} in ${env} mode`); });

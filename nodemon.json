@@ -1,6 +1,7 @@
 {
     "verbose": true,
     "env": {
+        "NODE_TLS_REJECT_UNAUTHORIZED": 0,
         "DEBUG": "libra",
         "NODE_ENV": "development"
     },
