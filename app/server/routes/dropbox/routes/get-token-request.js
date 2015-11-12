@@ -1,13 +1,10 @@
-import { buildRedirectURI, getAuthURL } from './utils';
-import { getCallback } from './routes/get-callback';
+import { buildRedirectURI, getAuthURL } from '../utils';
 
-export default function dropboxMiddleware(app, options) {
+export function getTokenRequestHandler(options) {
     const client_id = options.dropboxCfg.key;
     const redirect_uri = buildRedirectURI(options);
 
-    app.get(options.redirectPath, getCallback(options));
-
-    return function(req, res, next) {
+    return function sendTokenRequest(req, res, next) {
         if (!req.session.token) {
             const authURL = getAuthURL({ client_id, redirect_uri });
             res.redirect(authURL);
@@ -16,3 +13,4 @@ export default function dropboxMiddleware(app, options) {
         }
     };
 }
+

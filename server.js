@@ -16,7 +16,11 @@ import serverCfg from './config/server';
 
 import ApiAdapter from 'app/server/adapter/api';
 import api from 'api';
-import dropboxMiddleware from 'app/server/middlewares/dropbox';
+
+import initSession from 'app/server/middlewares/init-session';
+import { authenticate } from 'app/server/routes/authenticate';
+import { getCallbackHandler } from 'app/server/routes/dropbox/routes/get-callback';
+import { getTokenRequestHandler } from 'app/server/routes/dropbox/routes/get-token-request';
 
 const MongoStore = connectMongo(session);
 const app = express();
@@ -26,11 +30,20 @@ const port = config.get('SERVER_PORT');
 const api_port = config.get('API_PORT');
 const dataAdapter = new ApiAdapter(dataAdapterConfig);
 const server = rendr.createServer({ dataAdapter });
-const httpsOptions = {
-    key: fs.readFileSync('keys/key.pem'),
-    cert: fs.readFileSync('keys/cert.pem')
-};
 
+const dbxRedirectPath = config.get('AUTH_REDIRECT_PATH');
+const dbxRedirectHandler = getCallbackHandler({
+    dropboxCfg,
+    serverCfg,
+    redirectPath: dbxRedirectPath
+});
+const dbxTokenRequestHandler = getTokenRequestHandler({
+    dropboxCfg,
+    serverCfg,
+    redirectPath: dbxRedirectPath
+});
+
+// setup app middlewares
 app.use(logger('dev'));
 app.use(serverStatic(`${__dirname}/dist`));
 app.use(session({
@@ -39,18 +52,26 @@ app.use(session({
     secret: config.get('SESSION_SECRET'),
     store: new MongoStore({ url: config.get('MONGO_DB_URI') })
 }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// app configuration
+// configure rendr app
 server.configure(function(expressApp) {
-    expressApp.use(dropboxMiddleware(expressApp, {
-        dropboxCfg,
-        serverCfg,
-        redirectPath: config.get('AUTH_REDIRECT_PATH')
-    }));
+    expressApp.use(initSession());
 });
 
+// setup app routes
+app.post('/login', authenticate);
+app.get('/request-token', dbxTokenRequestHandler);
+app.get(dbxRedirectPath, dbxRedirectHandler);
+
 app.use('/', server.expressApp);
+
+// boot servers
+const httpsOptions = {
+    key: fs.readFileSync('keys/key.pem'),
+    cert: fs.readFileSync('keys/cert.pem')
+};
 
 https.createServer(httpsOptions, api)
      .listen(api_port, () => { dbg(`Api listening on port ${api_port} in ${env} mode`); });

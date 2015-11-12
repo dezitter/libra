@@ -1,5 +1,13 @@
+import { isAuth } from 'app/controllers/decorators/is-auth';
+
 export default {
-    index: function(params, cb) {
+
+    @isAuth
+    index(params, cb) {
+        cb();
+    },
+
+    login(params, cb) {
         cb();
     }
 };
