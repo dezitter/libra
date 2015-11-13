@@ -2,7 +2,6 @@ import bodyParser from 'body-parser';
 import connectMongo from 'connect-mongo';
 import debug from 'debug';
 import express from 'express';
-import fs from 'fs';
 import https from 'https';
 import logger from 'morgan';
 import rendr from 'rendr';
@@ -12,6 +11,7 @@ import session from 'express-session';
 import config from './config';
 import dataAdapterConfig from './config/dataAdapter';
 import dropboxCfg from './config/dropbox';
+import secureCfg from './config/secure';
 import serverCfg from './config/server';
 
 import ApiAdapter from 'app/server/adapter/api';
@@ -68,10 +68,7 @@ app.get(dbxRedirectPath, dbxRedirectHandler);
 app.use('/', server.expressApp);
 
 // boot servers
-const httpsOptions = {
-    key: fs.readFileSync('keys/key.pem'),
-    cert: fs.readFileSync('keys/cert.pem')
-};
+const httpsOptions = Object.assign({}, secureCfg);
 
 https.createServer(httpsOptions, api)
      .listen(api_port, () => { dbg(`Api listening on port ${api_port} in ${env} mode`); });

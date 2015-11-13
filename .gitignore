@@ -6,4 +6,5 @@ node_modules/*
 
 app/templates/compiledTemplates.js
 
+certs/
 config/secret.json
