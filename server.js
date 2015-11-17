@@ -22,15 +22,19 @@ import { authenticate, signup } from 'app/server/routes/user';
 import { getCallbackHandler } from 'app/server/routes/dropbox/routes/get-callback';
 import { getTokenRequestHandler } from 'app/server/routes/dropbox/routes/get-token-request';
 
-const MongoStore = connectMongo(session);
-const app = express();
-const dbg = debug('libra');
+// configs
+const api_port = config.get('API_PORT');
+const db_uri = config.get('MONGO_DB_URI');
 const env = config.get('NODE_ENV');
 const port = config.get('SERVER_PORT');
-const api_port = config.get('API_PORT');
+
+const MongoStore = connectMongo(session);
+const app = express();
 const dataAdapter = new ApiAdapter(dataAdapterConfig);
+const dbg = debug('libra');
 const server = rendr.createServer({ dataAdapter });
 
+// dropbox parameters
 const dbxRedirectPath = config.get('AUTH_REDIRECT_PATH');
 const dbxRedirectHandler = getCallbackHandler({
     dropboxCfg,
@@ -50,7 +54,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     secret: config.get('SESSION_SECRET'),
-    store: new MongoStore({ url: config.get('MONGO_DB_URI') })
+    store: new MongoStore({ url: db_uri })
 }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
