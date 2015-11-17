@@ -4,6 +4,7 @@ import debug from 'debug';
 import express from 'express';
 import https from 'https';
 import logger from 'morgan';
+import mongoose from 'mongoose';
 import rendr from 'rendr';
 import serverStatic from 'serve-static';
 import session from 'express-session';
@@ -71,6 +72,13 @@ app.get('/request-token', dbxTokenRequestHandler);
 app.get(dbxRedirectPath, dbxRedirectHandler);
 
 app.use('/', server.expressApp);
+
+// database handling
+mongoose.connect(db_uri);
+mongoose.connection.on('error', function(err) {
+    console.error(err);
+    process.exit(1);
+});
 
 // boot servers
 const httpsOptions = Object.assign({}, secureCfg);

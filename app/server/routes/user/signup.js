@@ -1,10 +1,10 @@
-import UserModel from 'app/models/user';
+import User from 'app/server/models/user';
 
-export function signup(req, res) {
-    const { login, email, password } = req.body;
+export function signup(req, res, next) {
+    User.create(req.body, function(err, user) {
+        if (err) return next(err);
 
-    // TODO create & save
-    const user = new UserModel({ login, email, password });
-    req.session.user = user;
-    res.redirect('/');
+        req.session.user = user.login;
+        res.redirect('/');
+    });
 }
