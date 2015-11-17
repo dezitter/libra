@@ -5,9 +5,5 @@ export default {
     @isAuth
     index(params, cb) {
         cb();
-    },
-
-    login(params, cb) {
-        cb();
     }
 };

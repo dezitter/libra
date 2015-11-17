@@ -1,0 +1,35 @@
+<div class="mdl-grid">
+  <div class="mdl-cell
+              mdl-cell--4-col
+              mdl-cell--hide-phone"></div>
+
+  <div class="mdl-cell
+              mdl-cell--4-col
+              mdel-cell--4-col-phone">
+
+    <div class="libra-login
+                mdl-card
+                mdl-card--border
+                mdl-shadow--2dp">
+
+      <form method="POST" action="/login">
+
+        <div class="mdl-textfield mdl-js-textfield">
+          <input id="login" type="text" name="login" autofocus class="mdl-textfield__input">
+          <label for="login" class="mdl-textfield__label">Login</label>
+        </div>
+
+        <div class="mdl-textfield mdl-js-textfield">
+          <input id="password" type="password" name="password"  class="mdl-textfield__input">
+          <label for="password" class="mdl-textfield__label">Password</label>
+        </div>
+
+        <button type="submit"
+                class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+          Submit
+        </button>
+      </form>
+
+      <p>Don't have an account ? <a href="/signup">Signup</a>!</p>
+  </div>
+</div>

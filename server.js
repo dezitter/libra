@@ -18,7 +18,7 @@ import ApiAdapter from 'app/server/adapter/api';
 import api from 'api';
 
 import initSession from 'app/server/middlewares/init-session';
-import { authenticate } from 'app/server/routes/authenticate';
+import { authenticate, signup } from 'app/server/routes/user';
 import { getCallbackHandler } from 'app/server/routes/dropbox/routes/get-callback';
 import { getTokenRequestHandler } from 'app/server/routes/dropbox/routes/get-token-request';
 
@@ -62,6 +62,7 @@ server.configure(function(expressApp) {
 
 // setup app routes
 app.post('/login', authenticate);
+app.post('/signup', signup);
 app.get('/request-token', dbxTokenRequestHandler);
 app.get(dbxRedirectPath, dbxRedirectHandler);
 

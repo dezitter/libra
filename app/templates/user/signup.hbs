@@ -12,11 +12,16 @@
                 mdl-card--border
                 mdl-shadow--2dp">
 
-      <form method="POST" action="/login">
+      <form method="POST" action="/signup">
 
         <div class="mdl-textfield mdl-js-textfield">
           <input id="login" type="text" name="login" autofocus class="mdl-textfield__input">
           <label for="login" class="mdl-textfield__label">Login</label>
+        </div>
+
+        <div class="mdl-textfield mdl-js-textfield">
+          <input id="email" type="email" name="email" autofocus class="mdl-textfield__input">
+          <label for="email" class="mdl-textfield__label">Email</label>
         </div>
 
         <div class="mdl-textfield mdl-js-textfield">
@@ -26,9 +31,10 @@
 
         <button type="submit"
                 class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
-          Submit
+          Signup
         </button>
       </form>
 
   </div>
 </div>
+
