@@ -5,13 +5,34 @@ export function authenticate(login, password, cb) {
         if (err) return cb(err);
         if (!user) return cb(new Error('Login failed.'));
 
-        user.comparePassword(password, onPasswordCompared);
+        if (user.isLocked) {
+            user.incLoginAttempts(err => {
+                if (err) return cb(err);
+
+                cb(new Error('Max logging attempts reached'));
+            });
+        } else {
+            user.comparePassword(password, (err, isMatch) => {
+                onPasswordCompared(err, isMatch, user);
+            });
+        }
     }
 
-    function onPasswordCompared(err, isMatch) {
-        if (err) { return cb(err); }
-        if (!isMatch) return cb(new Error('Login failed'));
+    function onPasswordCompared(err, isMatch, user) {
+        if (err) return cb(err);
 
-        cb(null);
+        if (!isMatch) {
+            user.incLoginAttempts(err => {
+                if (err) return cb(err);
+
+                cb(new Error('Login failed'));
+            });
+        } else {
+            user.resetAuthAttempts(err => {
+                if (err) return cb(err);
+
+                cb(null, user);
+            });
+        }
     }
 }
