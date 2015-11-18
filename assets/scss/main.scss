@@ -3,7 +3,21 @@ html {
 }
 
 #content {
-    padding: 48px 8px 8px;
+    padding: 38px 8px 8px;
+
+    &.loading {
+        opacity: 0.5;
+    }
+}
+
+#loader {
+    margin: auto;
+    z-index: 999;
+
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 48px + 28px;
 }
 
 .libra-file-list {
