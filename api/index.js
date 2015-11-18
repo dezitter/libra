@@ -10,6 +10,7 @@ import Fetcher from 'api/lib/fetcher';
 import config from '../config';
 import dropboxCfg from '../config/dropbox';
 import showdown from 'showdown';
+import { checkTokenMiddleware } from './router/middlewares/check-token';
 
 const app = express();
 const mongo_db_uri = config.get('MONGO_DB_URI');
@@ -32,6 +33,7 @@ MongoClient.connect(mongo_db_uri)
             secret: config.get('SESSION_SECRET'),
             store: new SessionStore({ url: mongo_db_uri })
         }));
+        app.use(checkTokenMiddleware())
         router(app);
 
     })
