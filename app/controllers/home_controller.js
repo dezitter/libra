@@ -1,8 +1,8 @@
-import { isAuth } from 'app/controllers/decorators/is-auth';
+import { needAuth } from 'app/controllers/decorators/need-auth';
 
 export default {
 
-    @isAuth
+    @needAuth
     index(params, cb) {
         cb();
     }

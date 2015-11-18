@@ -1,16 +1,16 @@
-import { isAuth } from 'app/controllers/decorators/is-auth';
+import { needAuth } from 'app/controllers/decorators/need-auth';
 import { requestToken } from 'app/controllers/decorators/request-token';
 
 export default {
 
-    @isAuth
+    @needAuth
     @requestToken
     index(params, cb) {
         const spec = { collection: { collection: 'Files' } };
         this.app.fetch(spec, cb);
     },
 
-    @isAuth
+    @needAuth
     @requestToken
     show(params, cb) {
         const path = params[0];
