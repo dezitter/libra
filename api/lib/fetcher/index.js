@@ -1,16 +1,18 @@
 import { stampFile } from './util/stamp-file';
 import { stampFiles } from './util/stamp-files';
 
+const DEFAULT_EXPIRE_DELAY = 3600;
+
 class Fetcher {
 
-    constructor(options={ttl: 3600}) {
+    constructor(options) {
         this.cache = options.db.collection('cache');
         this.dropbox = options.dropbox;
 
         // automatically bust cache
         this.cache.createIndex(
             { 'cachedAt': 1 },
-            { expireAfterSeconds : options.ttl }
+            { expireAfterSeconds : options.ttl || DEFAULT_EXPIRE_DELAY }
         );
     }
 
