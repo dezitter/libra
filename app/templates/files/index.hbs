@@ -15,7 +15,17 @@
         <div class="mdl-card__supporting-text">
           <div class="mdl-grid">
             <div class="mdl-cell--12-col">
-              <span>Size: </span><span>{{size}}</span>
+              <div>
+                <span>Size: </span><span>{{size}}</span>
+              </div>
+
+              <div>
+                <span>Created: </span><span>{{formatTimestamp client_mtime}}</span>
+              </div>
+
+              <div>
+                <span>Last time modified: </span><span>{{formatTimestamp modified}}</span>
+              </div>
             </div>
           </div>
         </div>
