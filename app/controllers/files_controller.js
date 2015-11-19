@@ -6,7 +6,13 @@ export default {
     @needAuth
     @requestToken
     index(params, cb) {
-        const spec = { collection: { collection: 'Files' } };
+        const spec = {
+            collection: {
+                params,
+                collection: 'Files',
+                needsFetch: (params.filter != null)
+            }
+        };
         this.app.fetch(spec, cb);
     },
 

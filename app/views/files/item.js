@@ -11,6 +11,7 @@ const FileItem = BaseView.extend({
     getTemplateData() {
         return this.options.data;
     }
+
 });
 FileItem.id = 'files/item';
 

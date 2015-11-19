@@ -22,11 +22,15 @@ function router(app) {
     }
 
     app.get('/files', function(req, res, next) {
+        const filter = req.query.filter || '';
         const promise = fetcher.fetch({
             token: req.session.token,
             args: { root: '/', pattern: '.md' }
         })
-        .then(files => files.map(sanitize));
+        .then(files => files.map(sanitize))
+        .then(files => {
+            return files.filter(f => f.path.includes(filter));
+        });
 
         respond(promise, req, res, next);
     });

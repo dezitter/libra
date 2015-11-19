@@ -1,5 +1,17 @@
-<div class="mdl-grid libra-file-list">
-  {{#each models}}
-    {{view "files/item" data=.}}
-  {{/each}}
+<div class="mdl-grid">
+  <div class="mdl-cell mdl-cell--12-col">
+    {{view "common/input"}}
+  </div>
+
+  <div class="mdl-cell mdl-cell--12-col">
+    <div class="mdl-grid libra-file-list">
+      {{#unless models.length}}
+        <p>No files found !</p>
+      {{/unless}}
+
+      {{#each models}}
+        {{view "files/item" data=.}}
+      {{/each}}
+    </div>
+  </div>
 </div>

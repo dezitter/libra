@@ -15,5 +15,13 @@ export default RendrApp.extend({
         }, this);
 
         RendrApp.prototype.start.call(this);
+    },
+
+    getFragment() {
+        if (process.browser) {
+            return this.router.currentFragment;
+        } else {
+            return this.req.originalUrl;
+        }
     }
 });
