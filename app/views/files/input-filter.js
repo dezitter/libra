@@ -1,7 +1,7 @@
 import url from 'url';
 import BaseView from 'app/views/base';
 
-const InputView = BaseView.extend({
+const InputFilterView = BaseView.extend({
 
     events: {
         'submit form': 'onSubmitForm'
@@ -34,6 +34,6 @@ const InputView = BaseView.extend({
         this.app.router.redirectTo(filterUrl);
     }
 });
-InputView.id = 'common/input';
+InputFilterView.id = 'files/input-filter';
 
-export default InputView;
+export default InputFilterView;
