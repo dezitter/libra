@@ -2,6 +2,8 @@
 
 A markdown file viewer.
 
+![Demo](/resources/demo.gif)
+
 ## Install
 
 1. Clone this repository.
